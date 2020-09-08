@@ -46,14 +46,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final jsonStores = jsonResult['stores'];
 
-    stores.clear();
+    setState(() {
+      stores.clear();
 
-    jsonStores.forEach((e) {
-      final store = Store.fromJson(e);
-      stores.add(store);
+      jsonStores.forEach((e) {
+        final store = Store.fromJson(e);
+        stores.add(store);
+      });
     });
+  }
 
-    print(stores);
+  @override
+  void initState() {
+    super.initState();
+    fetch();
   }
 
   @override
