@@ -11,11 +11,7 @@ class MainPage extends StatelessWidget {
     final storeModel = Provider.of<StoreModel>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('마스크 재고 있는곳: ${storeModel.stores.where((e) {
-          return e.remainStat == 'plenty' ||
-              e.remainStat == 'some' ||
-              e.remainStat == 'few';
-        }).length}'),
+        title: Text('마스크 재고 있는곳: ${storeModel.stores.length}'),
         actions: [
           IconButton(
               icon: Icon(Icons.refresh),
@@ -28,11 +24,7 @@ class MainPage extends StatelessWidget {
         child: storeModel.isLoading
             ? loadingWidget()
             : ListView(
-                children: storeModel.stores.where((e) {
-                  return e.remainStat == 'plenty' ||
-                      e.remainStat == 'some' ||
-                      e.remainStat == 'few';
-                }).map((e) {
+                children: storeModel.stores.map((e) {
                   return ListTile(
                     title: Text(e.name),
                     subtitle: Text(e.addr),
