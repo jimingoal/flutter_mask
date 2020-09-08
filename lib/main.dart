@@ -33,8 +33,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Store> stores = [];
+  var isLoading = true;
 
   Future fetch() async {
+    setState(() {
+      isLoading = true;
+    });
     var url =
         'https://gist.githubusercontent.com/junsuk5/bb7485d5f70974deee920b8f0cd1e2f0/raw/063f64d9b343120c2cb01a6555cf9b38761b1d94/sample.json?lat= 37.631947&lng=127.0180892';
 
@@ -53,7 +57,10 @@ class _MyHomePageState extends State<MyHomePage> {
         final store = Store.fromJson(e);
         stores.add(store);
       });
+      isLoading = false;
     });
+
+    print("새로고침 완료");
   }
 
   @override
@@ -66,17 +73,30 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('마스크 재고 있는곳: ${stores.length}'),
         actions: [IconButton(icon: Icon(Icons.refresh), onPressed: fetch)],
       ),
-      body: ListView(
-        children: stores.map((e) {
-          return ListTile(
-            title: Text(e.name),
-            subtitle: Text(e.addr),
-            trailing: Text(e.remainStat ?? ''),
-          );
-        }).toList(),
+      body: isLoading
+          ? loadingWidget()
+          : ListView(
+              children: stores.map((e) {
+                return ListTile(
+                  title: Text(e.name),
+                  subtitle: Text(e.addr),
+                  trailing: Text(e.remainStat ?? ''),
+                );
+              }).toList(),
+            ),
+    );
+  }
+
+  Widget loadingWidget() {
+    return Center(
+      child: Column(
+        children: [
+          Text('정보를 가져오는 중'),
+          CircularProgressIndicator(),
+        ],
       ),
     );
   }
