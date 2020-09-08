@@ -1,6 +1,8 @@
-import '../model/store.dart';
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+
+import '../model/store.dart';
 
 class StoreRepository {
   Future fetch() async {
