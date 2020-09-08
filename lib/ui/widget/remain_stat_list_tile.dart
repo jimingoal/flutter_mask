@@ -7,10 +7,6 @@ class RemainStatListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildRemainStatWidget(store);
-  }
-
-  Widget _buildRemainStatWidget(Store store) {
     var remainStat = '판매중지';
     var description = '판매중지';
     var color = Colors.black;
