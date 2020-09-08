@@ -64,7 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [IconButton(icon: Icon(Icons.refresh), onPressed: fetch)],
       ),
       body: ListView(
-        children: stores.map((e) => Text(e.name ?? '')).toList(),
+        children: stores.map((e) {
+          return ListTile(
+            title: Text(e.name),
+            subtitle: Text(e.addr),
+            trailing: Text(e.remainStat ?? ''),
+          );
+        }).toList(),
       ),
     );
   }
