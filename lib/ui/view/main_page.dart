@@ -1,10 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_mask/ui/widget/remain_stat_list_tile.dart';
 import 'package:flutter_mask/viewmodel/store_model.dart';
 import 'package:provider/provider.dart';
-
-import 'package:flutter/material.dart';
-
-import '../../model/store.dart';
 
 class MainPage extends StatelessWidget {
   @override
@@ -26,11 +23,7 @@ class MainPage extends StatelessWidget {
             ? loadingWidget()
             : ListView(
                 children: storeModel.stores.map((e) {
-                  return ListTile(
-                    title: Text(e.name),
-                    subtitle: Text(e.addr),
-                    trailing: RemainStatListTile(e),
-                  );
+                  return RemainStatListTile(e);
                 }).toList(),
               ),
       ),
