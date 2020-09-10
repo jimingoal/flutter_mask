@@ -6,7 +6,7 @@ import 'package:geolocator/geolocator.dart';
 
 class StoreModel with ChangeNotifier {
   var isLoading = true;
-  List<Store> stores = [];
+  List<dynamic> stores = [];
 
   final _storeRepository = StoreRepository();
   final _locationRepository = LocationRepository();

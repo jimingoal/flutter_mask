@@ -13,28 +13,36 @@ class StoreRepository {
 
     var url =
         'https://gist.githubusercontent.com/junsuk5/bb7485d5f70974deee920b8f0cd1e2f0/raw/063f64d9b343120c2cb01a6555cf9b38761b1d94/sample.json?lat= 37.631947&lng=127.0180892';
+    try {
+      var response = await http.get(url);
 
-    var response = await http.get(url);
+      if (response.statusCode == 200) {
+        final jsonResult = jsonDecode(response.body);
 
-    final jsonResult = jsonDecode(response.body);
+        final jsonStores = jsonResult['stores'];
 
-    final jsonStores = jsonResult['stores'];
+        jsonStores.forEach((e) {
+          final store = Store.fromJson(e);
+          final double km = _distance.as(LengthUnit.Kilometer,
+              LatLng(store.lat, store.lng), LatLng(lat, lng));
+          store.km = km;
+          stores.add(store);
+        });
+        // isLoading = false;
 
-    jsonStores.forEach((e) {
-      final store = Store.fromJson(e);
-      final double km = _distance.as(
-          LengthUnit.Kilometer, LatLng(store.lat, store.lng), LatLng(lat, lng));
-      store.km = km;
-      stores.add(store);
-    });
-    // isLoading = false;
+        print("새로고침 완료");
 
-    print("새로고침 완료");
-
-    return stores.where((e) {
-      return e.remainStat == 'plenty' ||
-          e.remainStat == 'some' ||
-          e.remainStat == 'few';
-    }).toList()..sort((a, b) => a.km.compareTo(b.km));
+        return stores.where((e) {
+          return e.remainStat == 'plenty' ||
+              e.remainStat == 'some' ||
+              e.remainStat == 'few';
+        }).toList()
+          ..sort((a, b) => a.km.compareTo(b.km));
+      } else {
+        return [];
+      }
+    } catch (e) {
+      return [];
+    }
   }
 }

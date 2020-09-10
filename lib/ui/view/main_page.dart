@@ -18,15 +18,31 @@ class MainPage extends StatelessWidget {
               })
         ],
       ),
-      body: Center(
-        child: storeModel.isLoading
-            ? loadingWidget()
-            : ListView(
-                children: storeModel.stores.map((e) {
-                  return RemainStatListTile(e);
-                }).toList(),
-              ),
-      ),
+      body: _buildBody(storeModel),
+    );
+  }
+
+  Widget _buildBody(StoreModel storeModel) {
+    if (storeModel.isLoading) {
+      return loadingWidget();
+    }
+
+    if (storeModel.stores.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('반경 5Km 이내에 재고가 있는 매장이 없습니다'),
+            Text('또는 인터넷이 연결되어 있는지 확인해 주세요'),
+          ],
+        ),
+      );
+    }
+
+    return ListView(
+      children: storeModel.stores.map((e) {
+        return RemainStatListTile(e);
+      }).toList(),
     );
   }
 
